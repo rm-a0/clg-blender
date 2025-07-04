@@ -20,3 +20,27 @@ This is a Blender add-on that enables users to create city layouts by organizing
 
 3. Dependencies:
   - No external dependencies required; uses Blender’s built-in Python API.
+
+# Implementation Details
+## Code Structure
+```
+src/
+├── ui/                       # User Interface
+│   ├── panels.py
+│   ├── operators.py
+│   ├── properties.py
+│   └── helpers.py
+├── core/                     # Core logic
+│   ├── generator.py
+├── ai/                       # AI models and trainers 
+│   ├── trainer.py
+│   └── data/
+├── tilesets/                 # User defined tiles
+│   ├── registry.py
+│   └── validators.py
+├── utils/                    # Utilities
+│   ├── geometry.py
+│   ├── noise.py
+│   └── blender_utils.py
+└── test/                     # Tests
+```
