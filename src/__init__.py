@@ -10,8 +10,13 @@ bl_info = {
 
 import bpy
 
+from src.ui import panels
+
 def register():
-    print("TODO")
+    panels.register()
+
+def unregister():
+    panels.unregister()
 
 if __name__ == "__main__":
     register()
