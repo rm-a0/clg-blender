@@ -1,0 +1,119 @@
+# Python general
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.whl
+
+# Virtual environment
+.env/
+.venv/
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# Blender-specific
+*.blend1
+*.blend2
+*.blend?
+*~
+blender_crash.txt
+blender_debug_output.txt
+blender_system_info.txt
+*.blend.bak
+*.blendbackup
+/temp/
+/tmp/
+
+# AI-related
+# Model weights and checkpoints
+*.h5
+*.hdf5
+*.pth
+*.pt
+*.ckpt
+model_weights/
+checkpoints/
+saved_models/
+
+# Datasets and training data
+data/
+datasets/
+*.csv
+*.tsv
+*.jsonl
+*.npz
+*.npy
+*.pickle
+*.pkl
+
+# AI output files
+output/
+outputs/
+generated/
+logs/
+tensorboard/
+runs/
+
+# Procedural generation outputs
+generated_assets/
+procedural_output/
+*.fbx
+*.obj
+*.mtl
+*.stl
+*.glb
+*.gltf
+
+# Caches
+.cache/
+*.cache
+pip_cache/
+*.pip
+
+# Testing and coverage
+.coverage
+coverage.xml
+*.cover
+*.py,cover
+htmlcov/
+.tox/
+.nox/
+coverage/
+pytest_cache/
+*.pytest_cache
+
+# Dependency management
+Pipfile.lock
+poetry.lock
+requirements.txt.bak
+
+# Miscellaneous
+*.log
+*.log.*
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+*.tmp
+temp/
+tmp/
+*.sublime-project
+*.sublime-workspace
+
+# Project-specific excludes (add any custom directories/files here)
+node_modules/  # If using Node.js for any part of the project
+*.zip
+*.tar.gz
+*.7z
