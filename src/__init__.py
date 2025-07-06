@@ -8,15 +8,15 @@ bl_info = {
     "category": "Object"
 }
 
-import bpy
-
-from src.ui import panels
+from .ui import panels, operators
 
 def register():
+    operators.register()
     panels.register()
 
 def unregister():
     panels.unregister()
+    operators.unregister()
 
 if __name__ == "__main__":
     register()
