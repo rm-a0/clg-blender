@@ -3,10 +3,10 @@ import bpy
 class CLG_PT_base_panel:
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = 'CityGen'
+    bl_category = 'CLG'
 
 class CLG_PT_main_panel(CLG_PT_base_panel, bpy.types.Panel):
-    bl_label = "City Layout Generation"
+    bl_label = "Custom Layout Generation"
     bl_idname = "CLG_PT_main_panel"
 
     def draw(self, context):
@@ -20,6 +20,34 @@ class CLG_PT_tile_settings(CLG_PT_base_panel, bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
+        scene = context.scene
+        tiles = scene.clg_tiles
+
+        layout.label(text="Tiles") 
+        row = layout.row(align=True)
+        
+        col1 = row.column()
+        box = col1.box()
+        
+        box.template_list(
+            "UI_UL_list",
+            "clg_tiles_list",
+            scene,
+            "clg_tiles",
+            scene,
+            "clg_active_tile_index",
+            rows=3
+        )
+        
+        col2 = row.column(align=True)
+        col2.ui_units_x = 1.0
+        col2.alignment = 'CENTER'
+        
+        button_col = col2.column(align=True)
+        button_col.ui_units_x = 1.0
+        button_col.operator("clg.add_tile", text="", icon='ADD')
+        button_col.operator("clg.delete_tile", text="", icon='X')
+        layout = self.layout
         pass
 
 class CLG_PT_primary_settings(CLG_PT_base_panel, bpy.types.Panel):
@@ -32,8 +60,8 @@ class CLG_PT_primary_settings(CLG_PT_base_panel, bpy.types.Panel):
         layout = self.layout
         layout.use_property_split = True
         layout.use_property_decorate = False
-        layout.prop(context.scene, "clg_grid_width", text="City Width (Tiles)")
-        layout.prop(context.scene, "clg_grid_height", text="City Height (Tiles)")
+        layout.prop(context.scene, "clg_grid_width", text="Grid Width (Tiles)")
+        layout.prop(context.scene, "clg_grid_height", text="Grid Height (Tiles)")
         layout.separator()
         layout.prop(context.scene, "clg_terrain_intensity", text="Terrain Intensity")
         layout.separator()
@@ -101,7 +129,7 @@ class CLG_PT_generate_panel(CLG_PT_base_panel, bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
-        layout.operator("clg.generate_city", text="Generate", icon='PLAY')
+        layout.operator("clg.generate_layout", text="Generate", icon='PLAY')
 
 classes = (
     CLG_PT_main_panel,

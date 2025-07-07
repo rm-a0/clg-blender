@@ -7,10 +7,16 @@ class CLG_PG_zone(bpy.types.PropertyGroup):
     ) # type: ignore
     frequency: bpy.props.FloatProperty(
         name="Frequency",
-        description="Frequency of selected zone in generated city layout",
+        description="Frequency of selected zone in generated layout",
         default=0.0,
         min=0.0,
         max=1.0,
+    ) # type: ignore
+
+class CLG_PG_tile(bpy.types.PropertyGroup):
+    name: bpy.props.StringProperty(
+        name="Tile Name",
+        default="Tile"
     ) # type: ignore
 
 def normalize_frequencies(context):
@@ -31,12 +37,20 @@ def normalize_frequencies(context):
 
 classes = (
     CLG_PG_zone,
+    CLG_PG_tile,
 )
 
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
     bpy.types.Scene.clg_zones = bpy.props.CollectionProperty(type=CLG_PG_zone)
+    bpy.types.Scene.clg_tiles = bpy.props.CollectionProperty(type=CLG_PG_tile)
+    bpy.types.Scene.clg_active_tile_index = bpy.props.IntProperty(
+        name="Active Tile Index",
+        default=0,
+        min=0,
+        description="Index of the active tile in the UI list"
+    )
     bpy.types.Scene.clg_active_zone_index = bpy.props.IntProperty(
         name="Active Zone Index",
         default=0,
@@ -47,13 +61,13 @@ def register():
         name="Grid Width",
         default=10,
         min=1,
-        description="Number of tiles in the grid width (width of the city in tiles)"
+        description="Number of tiles in the grid width (width of the layout in tiles)"
     )
     bpy.types.Scene.clg_grid_height = bpy.props.IntProperty(
         name="Grid Height",
         default=10,
         min=1,
-        description="Number of tiles in the grid height (height of the city in tiles)"
+        description="Number of tiles in the grid height (height of the layout in tiles)"
     )
     bpy.types.Scene.clg_terrain_intensity = bpy.props.IntProperty(
         name="Terrain Intensity",
