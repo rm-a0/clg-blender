@@ -48,6 +48,48 @@ class CLG_PT_secondary_settings(CLG_PT_base_panel, bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
+        scene = context.scene
+        zones = scene.clg_zones
+
+        layout.label(text="Zones and Frequencies") 
+        row = layout.row(align=True)
+        
+        col1 = row.column()
+        box = col1.box()
+        
+        box.template_list(
+            "UI_UL_list",
+            "clg_zones_list",
+            scene,
+            "clg_zones",
+            scene,
+            "clg_active_zone_index",
+            rows=3
+        )
+        
+        if zones and 0 <= scene.clg_active_zone_index < len(zones):
+            active_zone = zones[scene.clg_active_zone_index]
+            box.prop(active_zone, "frequency", text="Frequency", slider=True)
+        
+        total_freq = sum(zone.frequency for zone in zones)
+        box.label(text=f"Total Frequency: {total_freq:.3f}")
+        
+        col2 = row.column(align=True)
+        col2.ui_units_x = 1.0
+        col2.alignment = 'CENTER'
+        
+        button_col = col2.column(align=True)
+        button_col.ui_units_x = 1.0
+        button_col.operator("clg.add_zone", text="", icon='ADD')
+        button_col.operator("clg.delete_zone", text="", icon='X')
+
+class CLG_PT_zone_settings(CLG_PT_base_panel, bpy.types.Panel):
+    bl_label = "Zone Settings"
+    bl_idname = "CLG_PT_zone_settings"
+    bl_parent_id = "CLG_PT_secondary_settings"
+    bl_options = {'DEFAULT_CLOSED'}
+
+    def draw(self, context):
         pass
 
 class CLG_PT_generate_panel(CLG_PT_base_panel, bpy.types.Panel):
@@ -66,49 +108,14 @@ classes = (
     CLG_PT_tile_settings,
     CLG_PT_primary_settings,
     CLG_PT_secondary_settings,
-    CLG_PT_generate_panel
+    CLG_PT_generate_panel,
+    CLG_PT_zone_settings,
 )
 
 def register():
-    bpy.types.Scene.clg_grid_width = bpy.props.IntProperty(
-        name="Grid Width",
-        default=10,
-        min=1,
-        description="Number of tiles in the grid width (width of the city in tiles)"
-    )
-    bpy.types.Scene.clg_grid_height = bpy.props.IntProperty(
-        name="Grid Height",
-        default=10,
-        min=1,
-        description="Number of tiles in the grid height (height of the city in tiles)"
-    )
-    bpy.types.Scene.clg_terrain_intensity = bpy.props.IntProperty(
-        name="Terrain Intensity",
-        default=0,
-        min=0,
-        description="Intensity or strength of generated terrain \n(0 = no elevation, flat surface)"
-    )
-    bpy.types.Scene.clg_lake_frequency = bpy.props.IntProperty(
-        name="Lake Frequency",
-        default=0,
-        min=0,
-        description="Frequency of generated lakes \n(0 = no lakes generated)"
-    )
-    bpy.types.Scene.clg_river_frequency = bpy.props.IntProperty(
-        name="River Frequency",
-        default=0,
-        min=0,
-        description="Frequency of generated rivers \n(0 = no rivers generated)"
-    )
     for cls in classes:
         bpy.utils.register_class(cls)
 
 def unregister():
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
-
-    del bpy.types.Scene.clg_grid_width
-    del bpy.types.Scene.clg_grid_height
-    del bpy.types.Scene.clg_terrain_intensity
-    del bpy.types.Scene.clg_lake_frequency
-    del bpy.types.Scene.clg_river_frequency
