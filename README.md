@@ -1,5 +1,5 @@
 # Overview
-This is a Blender add-on that enables users to create city layouts by organizing pre-created meshes or collections into a customizable grid-based structure.
+This is a Blender add-on that enables users to create custom layouts by organizing pre-created meshes or collections into a customizable grid-based structure.
 
 > [!NOTE]  
 > The core logic of this add-on was based on my [Lua script for procedural 2D city generation and visualization](https://github.com/rm-a0/city-sim), ported to Python for seamless integration with Blender’s API.
