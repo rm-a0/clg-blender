@@ -16,7 +16,7 @@ This is a Blender add-on that enables users to create custom layouts by organizi
   - Open Blender (version 4.2 or later recommended).
   - Go to `Edit > Preferences > Add-ons`.
   - Click `Install`, select the clg-blender.zip or the folder’s `__init__.py`, and click `Install Add-on`.
-  - Enable the add-on by checking the box next to "Add Mesh: CityLayout Generator".
+  - Enable the add-on by checking the box.
 
 3. **Dependencies:**
   - No external dependencies required; uses Blender’s built-in Python API.
