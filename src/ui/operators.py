@@ -1,5 +1,4 @@
 import bpy
-from .properties import normalize_frequencies
 
 class CLG_OT_generate_layout(bpy.types.Operator):
     bl_idname = "clg.generate_layout"
@@ -61,6 +60,29 @@ class CLG_OT_delete_tile(bpy.types.Operator):
                 context.scene.clg_active_zone_index = len(tiles) - 1
         return {'FINISHED'}
 
+class CLG_OT_normalize_frequency(bpy.types.Operator):
+    bl_idname = "clg.normalize_frequency"
+    bl_label = "Normalize Frequency"
+    bl_description = "Normalize frequencies so that the sum will be equal to 1 while retaining ratios"
+
+    def execute(self, context):
+        zones = context.scene.clg_zones
+        if not zones:
+            self.report({'WARNING'}, "No zones to normalize")
+            return {'CANCELLED'}
+        
+        frequencies = [zone.frequency for zone in zones]
+        total = sum(frequencies)
+        
+        if total > 0:
+            for zone in zones:
+                zone.frequency = zone.frequency / total
+        else:
+            equal_freq = 1.0 / len(zones) if len(zones) > 0 else 0.0
+            for zone in zones:
+                zone.frequency = equal_freq
+
+        return {'FINISHED'}
 
 classes = (
     CLG_OT_generate_layout,
@@ -68,6 +90,7 @@ classes = (
     CLG_OT_delete_zone,
     CLG_OT_add_tile,
     CLG_OT_delete_tile,
+    CLG_OT_normalize_frequency,
 )
 
 def register():

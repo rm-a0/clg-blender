@@ -42,22 +42,6 @@ class CLG_PG_tile(bpy.types.PropertyGroup):
         type=CLG_PG_mesh_ref
     ) # type: ignore
 
-def normalize_frequencies(context):
-    zones = context.scene.clg_zones
-    if not zones:
-        return
-    
-    frequencies = [zone.frequency for zone in zones]
-    total = sum(frequencies)
-    
-    if total == 0:
-        equal_freq = 1.0 / len(zones) if len(zones) > 0 else 0.0
-        for zone in zones:
-            zone.frequency = equal_freq
-    elif total >= 1.0:
-        for zone in zones:
-            zone.frequency = zone.frequency / total if total > 0 else 0.0
-
 classes = (
     CLG_PG_zone,
     CLG_PG_mesh_ref,

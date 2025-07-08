@@ -116,9 +116,16 @@ class CLG_PT_secondary_settings(CLG_PT_base_panel, bpy.types.Panel):
             active_zone = zones[scene.clg_active_zone_index]
             box.prop(active_zone, "frequency", text="Frequency", slider=True)
         
+        box_row = box.row(align=True)
+        box_col1 = box_row.column()
+
         total_freq = sum(zone.frequency for zone in zones)
-        box.label(text=f"Total Frequency: {total_freq:.3f}")
-        
+        box_col1.label(text=f"Total Frequency: {total_freq:.3f}")
+
+        box_row.column()
+        box_col2 = box_row.column(align=True)
+        box_col2.operator("clg.normalize_frequency", text="Normalize")
+
         col2 = row.column(align=True)
         col2.ui_units_x = 1.0
         col2.alignment = 'CENTER'
