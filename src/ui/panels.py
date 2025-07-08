@@ -21,7 +21,6 @@ class CLG_PT_tile_settings(CLG_PT_base_panel, bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
         scene = context.scene
-        tiles = scene.clg_tiles
 
         layout.label(text="Tiles") 
         row = layout.row(align=True)
@@ -47,8 +46,26 @@ class CLG_PT_tile_settings(CLG_PT_base_panel, bpy.types.Panel):
         button_col.ui_units_x = 1.0
         button_col.operator("clg.add_tile", text="", icon='ADD')
         button_col.operator("clg.delete_tile", text="", icon='X')
+
+class CLG_PT_tile_detail_settings(CLG_PT_base_panel, bpy.types.Panel):
+    bl_label = "Tile Details"
+    bl_idname = "CLG_PT_tile_detail_settings"
+    bl_parent_id = "CLG_PT_tile_settings"
+
+    def draw(self, context):
         layout = self.layout
-        pass
+        scene = context.scene
+        tiles = scene.clg_tiles
+
+        if not tiles or scene.clg_active_tile_index >= len(tiles):
+            layout.label(text="No tile selected.")
+            return
+
+        tile = tiles[scene.clg_active_tile_index]
+
+        layout.label(text=tile.name, icon='SNAP_FACE')
+        layout.prop(tile, "name", text="Name")
+        layout.prop(tile, "tile_type", text="Tile Type")
 
 class CLG_PT_primary_settings(CLG_PT_base_panel, bpy.types.Panel):
     bl_label = "Primary Settings"
@@ -134,6 +151,7 @@ class CLG_PT_generate_panel(CLG_PT_base_panel, bpy.types.Panel):
 classes = (
     CLG_PT_main_panel,
     CLG_PT_tile_settings,
+    CLG_PT_tile_detail_settings,
     CLG_PT_primary_settings,
     CLG_PT_secondary_settings,
     CLG_PT_generate_panel,

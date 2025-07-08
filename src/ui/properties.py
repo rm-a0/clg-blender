@@ -13,10 +13,33 @@ class CLG_PG_zone(bpy.types.PropertyGroup):
         max=1.0,
     ) # type: ignore
 
+class CLG_PG_mesh_ref(bpy.types.PropertyGroup):
+    object_ref: bpy.props.PointerProperty(
+        name="Mesh Object",
+        type=bpy.types.Object
+    ) # type: ignore
+
 class CLG_PG_tile(bpy.types.PropertyGroup):
     name: bpy.props.StringProperty(
         name="Tile Name",
         default="Tile"
+    ) # type: ignore
+    tile_type: bpy.props.EnumProperty(
+        name="Type",
+        description="Type/category of a tile",
+        items=[
+            ('PATH', "Path", "Paths and roads"),
+            ('WATER', "Water", "Rivers, lakes and bodies of water"),
+            ('RESIDENTIAL', "Residential", "Housing and homes"),
+            ('COMMERCIAL', "Commercial", "Shops and businesses"),
+            ('INDUSTRIAL', "Industrial", "Factories and warehouses"),
+            ('CUSTOM', "Custom", "Custom or user-defined type"),
+        ],
+        default='RESIDENTIAL'
+    ) # type: ignore
+    meshes: bpy.props.CollectionProperty(
+        name="Tile Meshes",
+        type=CLG_PG_mesh_ref
     ) # type: ignore
 
 def normalize_frequencies(context):
@@ -37,6 +60,7 @@ def normalize_frequencies(context):
 
 classes = (
     CLG_PG_zone,
+    CLG_PG_mesh_ref,
     CLG_PG_tile,
 )
 
@@ -91,6 +115,8 @@ def register():
 def unregister():
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
+    del bpy.types.Scene.clg_tiles
+    del bpy.types.Scene.clg_active_tile_index
     del bpy.types.Scene.clg_zones
     del bpy.types.Scene.clg_active_zone_index
     del bpy.types.Scene.clg_grid_width
