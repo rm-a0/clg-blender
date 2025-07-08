@@ -8,6 +8,7 @@ class CLG_PT_base_panel:
 class CLG_PT_main_panel(CLG_PT_base_panel, bpy.types.Panel):
     bl_label = "Custom Layout Generation"
     bl_idname = "CLG_PT_main_panel"
+    bl_options = {'HIDE_HEADER'}
 
     def draw(self, context):
         pass

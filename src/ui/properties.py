@@ -30,12 +30,11 @@ class CLG_PG_tile(bpy.types.PropertyGroup):
         items=[
             ('PATH', "Path", "Paths and roads"),
             ('WATER', "Water", "Rivers, lakes and bodies of water"),
-            ('RESIDENTIAL', "Residential", "Housing and homes"),
-            ('COMMERCIAL', "Commercial", "Shops and businesses"),
-            ('INDUSTRIAL', "Industrial", "Factories and warehouses"),
+            ('STRUCTURE', "Structure", "Buidling or any type of structure"),
+            ('DECORATION', "Decoration", "Trees, lamps or any types of decorations"),
             ('CUSTOM', "Custom", "Custom or user-defined type"),
         ],
-        default='RESIDENTIAL'
+        default='STRUCTURE'
     ) # type: ignore
     meshes: bpy.props.CollectionProperty(
         name="Tile Meshes",
