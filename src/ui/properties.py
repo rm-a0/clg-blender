@@ -1,18 +1,5 @@
 import bpy
 
-class CLG_PG_zone(bpy.types.PropertyGroup):
-    name: bpy.props.StringProperty(
-        name="Zone Name", 
-        default="Zone"
-    ) # type: ignore
-    frequency: bpy.props.FloatProperty(
-        name="Frequency",
-        description="Frequency of selected zone in generated layout",
-        default=0.0,
-        min=0.0,
-        max=1.0,
-    ) # type: ignore
-
 class CLG_PG_mesh_ref(bpy.types.PropertyGroup):
     object_ref: bpy.props.PointerProperty(
         name="Mesh Object",
@@ -41,10 +28,27 @@ class CLG_PG_tile(bpy.types.PropertyGroup):
         type=CLG_PG_mesh_ref
     ) # type: ignore
 
+class CLG_PG_zone(bpy.types.PropertyGroup):
+    name: bpy.props.StringProperty(
+        name="Zone Name", 
+        default="Zone"
+    ) # type: ignore
+    frequency: bpy.props.FloatProperty(
+        name="Frequency",
+        description="Frequency of selected zone in generated layout",
+        default=0.0,
+        min=0.0,
+        max=1.0,
+    ) # type: ignore
+    tiles: bpy.props.CollectionProperty(
+        name="Allowed Tiles",
+        type=CLG_PG_tile,
+    ) # type: ignore
+
 classes = (
-    CLG_PG_zone,
     CLG_PG_mesh_ref,
     CLG_PG_tile,
+    CLG_PG_zone,
 )
 
 def register():

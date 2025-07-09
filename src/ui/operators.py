@@ -84,6 +84,39 @@ class CLG_OT_normalize_frequency(bpy.types.Operator):
 
         return {'FINISHED'}
 
+class CLG_OT_toggle_tile_in_zone(bpy.types.Operator):
+    bl_idname = "clg.toggle_tile_in_zone"
+    bl_label = "Toggle Tile"
+    bl_description = "Toggle tile in selected zone, if tile is not toggled it won't be generated in the selected zone"
+    tile_index: bpy.props.IntProperty() # type: ignore
+
+    def execute(self, context):
+        scene = context.scene
+        tile = scene.clg_tiles[self.tile_index]
+        zone = scene.clg_zones[scene.clg_active_zone_index] if scene.clg_zones else None
+
+        if not zone:
+            self.report({'ERROR'}, "No active zone selected")
+            return {'CANCELLED'}
+
+        tile_in_zone = None
+        for zone_tile in zone.tiles:
+            if zone_tile.name == tile.name:
+                tile_in_zone = zone_tile
+                break
+
+        if tile_in_zone:
+            index = zone.tiles.find(tile_in_zone.name)
+            zone.tiles.remove(index)
+            self.report({'INFO'}, f"Removed {tile.name} from zone {zone.name}")
+        else:
+            new_tile = zone.tiles.add()
+            new_tile.name = tile.name
+            new_tile.tile_type = tile.tile_type
+            self.report({'INFO'}, f"Added {tile.name} to zone {zone.name}")
+
+        return {'FINISHED'}
+
 classes = (
     CLG_OT_generate_layout,
     CLG_OT_add_zone,
@@ -91,6 +124,7 @@ classes = (
     CLG_OT_add_tile,
     CLG_OT_delete_tile,
     CLG_OT_normalize_frequency,
+    CLG_OT_toggle_tile_in_zone,
 )
 
 def register():

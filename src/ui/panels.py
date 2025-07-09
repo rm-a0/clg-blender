@@ -1,5 +1,26 @@
 import bpy
 
+class CLG_UL_checkbox_list(bpy.types.UIList):
+    def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
+        scene = context.scene
+        zone = scene.clg_zones[scene.clg_active_zone_index] if scene.clg_zones else None
+        
+        row = layout.row(align=True)
+        row.label(text=item.name)
+        
+        is_in_zone = False
+        if zone:
+            for zone_tile in zone.tiles:
+                if zone_tile.name == item.name:
+                    is_in_zone = True
+                    break
+
+        row.operator(
+           "clg.toggle_tile_in_zone", 
+            text="",
+            icon="CHECKBOX_HLT" if is_in_zone else "CHECKBOX_DEHLT"
+        ).tile_index = index
+
 class CLG_PT_base_panel:
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
@@ -143,8 +164,30 @@ class CLG_PT_zone_settings(CLG_PT_base_panel, bpy.types.Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
-        pass
+        layout = self.layout
+        scene = context.scene
+        zones = scene.clg_zones
 
+        if not zones or scene.clg_active_zone_index >= len(zones):
+            layout.label(text="No zone selected.")
+            return
+
+        layout.label(text="Allowed Tiles") 
+        row = layout.row(align=True)
+        
+        col1 = row.column()
+        box = col1.box()
+        
+        box.template_list(
+            "CLG_UL_checkbox_list",
+            "clg_tiles_list",
+            scene,
+            "clg_tiles",
+            scene,
+            "clg_active_tile_index",
+            rows=3
+        )
+        
 class CLG_PT_generate_panel(CLG_PT_base_panel, bpy.types.Panel):
     bl_label = "Generate"
     bl_idname = "CLG_PT_generate_panel"
@@ -157,6 +200,7 @@ class CLG_PT_generate_panel(CLG_PT_base_panel, bpy.types.Panel):
         layout.operator("clg.generate_layout", text="Generate", icon='PLAY')
 
 classes = (
+    CLG_UL_checkbox_list,
     CLG_PT_main_panel,
     CLG_PT_tile_settings,
     CLG_PT_tile_detail_settings,
