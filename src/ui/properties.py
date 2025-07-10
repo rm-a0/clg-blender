@@ -44,6 +44,29 @@ class CLG_PG_zone(bpy.types.PropertyGroup):
         name="Allowed Tiles",
         type=CLG_PG_tile,
     ) # type: ignore
+    path_generation: bpy.props.EnumProperty(
+        name="Secondary Path Generation",
+        description="Algorithm for generating secondary paths",
+        items=[
+            ('NONE', "None", "No secondary paths will be generated"),
+            ('VORONOI', "Voronoi", "Uses edges of voronoi diagrams for path generation"),
+            ('GRID', "Grid", "Uses points with offset for generating grid-like path structure"),
+            ('RADIAL', "Radial", "Creates circular paths with offset for generating radial path structure"),
+            ('AI', "AI", "Uses AI trained on pictures of city layouts"),
+        ],
+        default='NONE'
+    ) # type: ignore
+    structure_generation: bpy.props.EnumProperty(
+        name="Structure Generation",
+        description="Algorithm for generating structures",
+        items=[
+            ('NONE', "None", "No strucutres will be generated"),
+            ('GRID', "Grid", "Uses points with offset for generating structures in grid-like pattern"),
+            ('RADIAL', "Radial", "Generates structures in raidal-like pattern"),
+            ('AI', "AI", "Uses AI trained on pictures of city layouts"),
+        ],
+        default='NONE'
+    ) # type: ignore
 
 classes = (
     CLG_PG_mesh_ref,

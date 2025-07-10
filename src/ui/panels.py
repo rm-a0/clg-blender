@@ -172,6 +172,7 @@ class CLG_PT_zone_settings(CLG_PT_base_panel, bpy.types.Panel):
             layout.label(text="No zone selected.")
             return
 
+        zone = zones[scene.clg_active_zone_index]
         layout.label(text="Allowed Tiles") 
         row = layout.row(align=True)
         
@@ -187,6 +188,9 @@ class CLG_PT_zone_settings(CLG_PT_base_panel, bpy.types.Panel):
             "clg_active_tile_index",
             rows=3
         )
+
+        layout.prop(zone, "path_generation", text="Path Generation")
+        layout.prop(zone, "structure_generation", text="Structure Generation")
         
 class CLG_PT_generate_panel(CLG_PT_base_panel, bpy.types.Panel):
     bl_label = "Generate"
