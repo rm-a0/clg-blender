@@ -1,8 +1,11 @@
 import bpy
 
-class CLG_PG_mesh_ref(bpy.types.PropertyGroup):
+def update_connection(self, context):
+    pass
+
+class CLG_PG_obj_ref(bpy.types.PropertyGroup):
     object_ref: bpy.props.PointerProperty(
-        name="Mesh Object",
+        name="Object Reference",
         type=bpy.types.Object
     ) # type: ignore
 
@@ -10,23 +13,55 @@ class CLG_PG_tile(bpy.types.PropertyGroup):
     name: bpy.props.StringProperty(
         name="Tile Name",
         default="Tile"
-    ) # type: ignore
+    )  # type: ignore
     tile_type: bpy.props.EnumProperty(
         name="Type",
         description="Type/category of a tile",
         items=[
             ('PATH', "Path", "Paths and roads"),
             ('WATER', "Water", "Rivers, lakes and bodies of water"),
-            ('STRUCTURE', "Structure", "Buidling or any type of structure"),
+            ('STRUCTURE', "Structure", "Building or any type of structure"),
             ('DECORATION', "Decoration", "Trees, lamps or any types of decorations"),
             ('CUSTOM', "Custom", "Custom or user-defined type"),
         ],
         default='STRUCTURE'
-    ) # type: ignore
-    meshes: bpy.props.CollectionProperty(
-        name="Tile Meshes",
-        type=CLG_PG_mesh_ref
-    ) # type: ignore
+    )  # type: ignore
+    objects: bpy.props.CollectionProperty(
+        name="Tile Objects",
+        type=CLG_PG_obj_ref
+    )  # type: ignore
+    active_obj_ref_index: bpy.props.IntProperty(
+        name="Active Object Reference Index",
+        default=0
+    )  # type: ignore
+    top_connection: bpy.props.EnumProperty(
+        name="Top",
+        description="Tile connected to the top side",
+        items=[("NONE", "None", "No connection")],  # Static default item
+        default="NONE",
+        update=update_connection
+    )  # type: ignore
+    bottom_connection: bpy.props.EnumProperty(
+        name="Bottom",
+        description="Tile connected to the bottom side",
+        items=[("NONE", "None", "No connection")],  # Static default item
+        default="NONE",
+        update=update_connection
+    )  # type: ignore
+    left_connection: bpy.props.EnumProperty(
+        name="Left",
+        description="Tile connected to the left side",
+        items=[("NONE", "None", "No connection")],  # Static default item
+        default="NONE",
+        update=update_connection
+    )  # type: ignore
+    right_connection: bpy.props.EnumProperty(
+        name="Right",
+        description="Tile connected to the right side",
+        items=[("NONE", "None", "No connection")],  # Static default item
+        default="NONE",
+        update=update_connection
+    )  # type: ignore
 
 class CLG_PG_zone(bpy.types.PropertyGroup):
     name: bpy.props.StringProperty(
@@ -69,7 +104,7 @@ class CLG_PG_zone(bpy.types.PropertyGroup):
     ) # type: ignore
 
 classes = (
-    CLG_PG_mesh_ref,
+    CLG_PG_obj_ref,
     CLG_PG_tile,
     CLG_PG_zone,
 )

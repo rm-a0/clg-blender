@@ -44,6 +44,9 @@ class CLG_OT_add_tile(bpy.types.Operator):
         tiles = context.scene.clg_tiles
         tile = tiles.add()
         tile.name = f"Tile_0{len(tiles)}"
+        for obj in context.selected_objects:
+            obj_ref = tile.objects.add()
+            obj_ref.object_ref = obj
         return {'FINISHED'}
 
 class CLG_OT_delete_tile(bpy.types.Operator):
@@ -117,6 +120,29 @@ class CLG_OT_toggle_tile_in_zone(bpy.types.Operator):
 
         return {'FINISHED'}
 
+class CLG_OT_add_obj_ref(bpy.types.Operator):
+    bl_idname = "clg.add_obj_ref"
+    bl_label = "Add Object Reference"
+
+    def execute(self, context):
+        tile = context.scene.clg_tiles[context.scene.clg_active_tile_index]
+        obj_ref = tile.objects.add()
+        if context.active_object:
+            obj_ref.object_ref = context.active_object
+        return {'FINISHED'}
+
+class CLG_OT_delete_obj_ref(bpy.types.Operator):
+    bl_idname = "clg.delete_obj_ref"
+    bl_label = "Delete Object Reference"
+
+    def execute(self, context):
+        tile = context.scene.clg_tiles[context.scene.clg_active_tile_index]
+        index = tile.active_obj_ref_index
+        if len(tile.objects) > 0 and index < len(tile.objects):
+            tile.objects.remove(index)
+            tile.active_obj_ref_index = min(max(0, index - 1), len(tile.objects) - 1)
+        return {'FINISHED'}
+
 classes = (
     CLG_OT_generate_layout,
     CLG_OT_add_zone,
@@ -125,6 +151,8 @@ classes = (
     CLG_OT_delete_tile,
     CLG_OT_normalize_frequency,
     CLG_OT_toggle_tile_in_zone,
+    CLG_OT_add_obj_ref,
+    CLG_OT_delete_obj_ref,
 )
 
 def register():

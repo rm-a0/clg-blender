@@ -21,6 +21,13 @@ class CLG_UL_checkbox_list(bpy.types.UIList):
             icon="CHECKBOX_HLT" if is_in_zone else "CHECKBOX_DEHLT"
         ).tile_index = index
 
+class CLG_UL_obj_ref_list(bpy.types.UIList):
+    def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
+        if item.object_ref:
+            layout.label(text=item.object_ref.name, icon='OBJECT_DATA')
+        else:
+            layout.label(text="None (Invalid reference)", icon='ERROR')
+
 class CLG_PT_base_panel:
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
@@ -88,6 +95,48 @@ class CLG_PT_tile_detail_settings(CLG_PT_base_panel, bpy.types.Panel):
         layout.label(text=tile.name, icon='SNAP_FACE')
         layout.prop(tile, "name", text="Name")
         layout.prop(tile, "tile_type", text="Tile Type")
+
+        layout.label(text="Object References")
+        row = layout.row(align=True)
+
+        col1 = row.column()
+        box = col1.box()
+        box.template_list(
+            "CLG_UL_obj_ref_list",
+            "clg_obj_ref_list",
+            tile,
+            "objects",
+            tile,
+            "active_obj_ref_index",
+            rows=3
+        )
+
+        col2 = row.column(align=True)
+        col2.ui_units_x = 1.0
+        col2.alignment = 'CENTER'
+        button_col = col2.column(align=True)
+        button_col.ui_units_x = 1.0
+        button_col.operator("clg.add_obj_ref", text="", icon='ADD')
+        button_col.operator("clg.delete_obj_ref", text="", icon='X')
+
+        layout.label(text="Tile Connections")
+        box = layout.box()
+        box.label(text="Tile Connection Setup", icon='MESH_GRID')
+
+        row = box.row(align=True)
+        row.label(text="")
+        row.prop(tile, "top_connection", text="")
+        row.label(text="")
+
+        row = box.row(align=True)
+        row.prop(tile, "left_connection", text="")
+        row.label(text=tile.name, icon='OUTLINER_OB_MESH')
+        row.prop(tile, "right_connection", text="")
+
+        row = box.row(align=True)
+        row.label(text="")
+        row.prop(tile, "bottom_connection", text="")
+        row.label(text="")
 
 class CLG_PT_primary_settings(CLG_PT_base_panel, bpy.types.Panel):
     bl_label = "Primary Settings"
@@ -212,6 +261,7 @@ classes = (
     CLG_PT_secondary_settings,
     CLG_PT_generate_panel,
     CLG_PT_zone_settings,
+    CLG_UL_obj_ref_list,
 )
 
 def register():
