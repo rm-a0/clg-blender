@@ -80,6 +80,7 @@ class CLG_PT_tile_detail_settings(CLG_PT_base_panel, bpy.types.Panel):
     bl_label = "Tile Details"
     bl_idname = "CLG_PT_tile_detail_settings"
     bl_parent_id = "CLG_PT_tile_settings"
+    bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
         layout = self.layout
@@ -87,7 +88,6 @@ class CLG_PT_tile_detail_settings(CLG_PT_base_panel, bpy.types.Panel):
         tiles = scene.clg_tiles
 
         if not tiles or scene.clg_active_tile_index >= len(tiles):
-            layout.label(text="No tile selected.")
             return
 
         tile = tiles[scene.clg_active_tile_index]
@@ -96,7 +96,21 @@ class CLG_PT_tile_detail_settings(CLG_PT_base_panel, bpy.types.Panel):
         layout.prop(tile, "name", text="Name")
         layout.prop(tile, "tile_type", text="Tile Type")
 
-        layout.label(text="Object References")
+class CLG_PT_tile_object_references(CLG_PT_base_panel, bpy.types.Panel):
+    bl_label = "Object References"
+    bl_idname = "CLG_PT_tile_object_references"
+    bl_parent_id = "CLG_PT_tile_settings"
+    bl_options = {'DEFAULT_CLOSED'}
+
+    def draw(self, context):
+        layout = self.layout
+        scene = context.scene
+        tiles = scene.clg_tiles
+
+        if not tiles or scene.clg_active_tile_index >= len(tiles):
+            return
+
+        tile = tiles[scene.clg_active_tile_index]
         row = layout.row(align=True)
 
         col1 = row.column()
@@ -119,7 +133,22 @@ class CLG_PT_tile_detail_settings(CLG_PT_base_panel, bpy.types.Panel):
         button_col.operator("clg.add_obj_ref", text="", icon='ADD')
         button_col.operator("clg.delete_obj_ref", text="", icon='X')
 
-        layout.label(text="Tile Connections")
+class CLG_PT_tile_connections(CLG_PT_base_panel, bpy.types.Panel):
+    bl_label = "Tile Connections"
+    bl_idname = "CLG_PT_tile_connections"
+    bl_parent_id = "CLG_PT_tile_settings"
+    bl_options = {'DEFAULT_CLOSED'}
+
+    def draw(self, context):
+        layout = self.layout
+        scene = context.scene
+        tiles = scene.clg_tiles
+
+        if not tiles or scene.clg_active_tile_index >= len(tiles):
+            return
+
+        tile = tiles[scene.clg_active_tile_index]
+
         box = layout.box()
         box.label(text="Tile Connection Setup", icon='MESH_GRID')
 
@@ -262,6 +291,8 @@ classes = (
     CLG_PT_generate_panel,
     CLG_PT_zone_settings,
     CLG_UL_obj_ref_list,
+    CLG_PT_tile_object_references,
+    CLG_PT_tile_connections,
 )
 
 def register():
