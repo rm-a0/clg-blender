@@ -149,23 +149,12 @@ class CLG_PT_tile_connections(CLG_PT_base_panel, bpy.types.Panel):
 
         tile = tiles[scene.clg_active_tile_index]
 
-        box = layout.box()
-        box.label(text="Tile Connection Setup", icon='MESH_GRID')
+        col = layout.column(align=True)
 
-        row = box.row(align=True)
-        row.label(text="")
-        row.prop(tile, "top_connection", text="")
-        row.label(text="")
-
-        row = box.row(align=True)
-        row.prop(tile, "left_connection", text="")
-        row.label(text=tile.name, icon='OUTLINER_OB_MESH')
-        row.prop(tile, "right_connection", text="")
-
-        row = box.row(align=True)
-        row.label(text="")
-        row.prop(tile, "bottom_connection", text="")
-        row.label(text="")
+        col.prop(tile, "top_connection", text="Top (Y)")
+        col.prop(tile, "bottom_connection", text="Bottom (-Y)")
+        col.prop(tile, "left_connection", text="Left (-X)")
+        col.prop(tile, "right_connection", text="Right (X)")
 
 class CLG_PT_primary_settings(CLG_PT_base_panel, bpy.types.Panel):
     bl_label = "Primary Settings"
