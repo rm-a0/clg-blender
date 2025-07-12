@@ -1,13 +1,10 @@
 import bpy
 
-def update_connection(self, context):
-    pass
-
 class CLG_PG_obj_ref(bpy.types.PropertyGroup):
     object_ref: bpy.props.PointerProperty(
         name="Object Reference",
         type=bpy.types.Object
-    ) # type: ignore
+    )  # type: ignore
 
 class CLG_PG_tile(bpy.types.PropertyGroup):
     name: bpy.props.StringProperty(
@@ -34,51 +31,60 @@ class CLG_PG_tile(bpy.types.PropertyGroup):
         name="Active Object Reference Index",
         default=0
     )  # type: ignore
-    top_connection: bpy.props.EnumProperty(
-        name="Top",
-        description="Tile connected to the top side",
-        items=[("NONE", "None", "No connection")],  # Static default item
-        default="NONE",
-        update=update_connection
-    )  # type: ignore
-    bottom_connection: bpy.props.EnumProperty(
-        name="Bottom",
-        description="Tile connected to the bottom side",
-        items=[("NONE", "None", "No connection")],  # Static default item
-        default="NONE",
-        update=update_connection
-    )  # type: ignore
-    left_connection: bpy.props.EnumProperty(
-        name="Left",
-        description="Tile connected to the left side",
-        items=[("NONE", "None", "No connection")],  # Static default item
-        default="NONE",
-        update=update_connection
-    )  # type: ignore
-    right_connection: bpy.props.EnumProperty(
-        name="Right",
-        description="Tile connected to the right side",
-        items=[("NONE", "None", "No connection")],  # Static default item
-        default="NONE",
-        update=update_connection
-    )  # type: ignore
+
+    @classmethod
+    def register(cls):
+        def get_tile_items(self, context):
+            items = [("NONE", "None", "No connection required")]
+            try:
+                tile_connections = context.scene.clg_tiles
+                for tile in tile_connections:
+                    items.append((tile.name, tile.name, f"Required connection to '{tile.name}' tile"))
+            except Exception:
+                pass
+            return items
+
+        cls.top_connection = bpy.props.EnumProperty(
+            name="Top",
+            description="Tile connected to the top side",
+            items=get_tile_items,
+            default=0
+        )
+        cls.bottom_connection = bpy.props.EnumProperty(
+            name="Bottom",
+            description="Tile connected to the bottom side",
+            items=get_tile_items,
+            default=0
+        )
+        cls.left_connection = bpy.props.EnumProperty(
+            name="Left",
+            description="Tile connected to the left side",
+            items=get_tile_items,
+            default=0
+        )
+        cls.right_connection = bpy.props.EnumProperty(
+            name="Right",
+            description="Tile connected to the right side",
+            items=get_tile_items,
+            default=0
+        )
 
 class CLG_PG_zone(bpy.types.PropertyGroup):
     name: bpy.props.StringProperty(
-        name="Zone Name", 
+        name="Zone Name",
         default="Zone"
-    ) # type: ignore
+    )  # type: ignore
     frequency: bpy.props.FloatProperty(
         name="Frequency",
         description="Frequency of selected zone in generated layout",
         default=0.0,
         min=0.0,
         max=1.0,
-    ) # type: ignore
+    )  # type: ignore
     tiles: bpy.props.CollectionProperty(
         name="Allowed Tiles",
         type=CLG_PG_tile,
-    ) # type: ignore
+    )  # type: ignore
     path_generation: bpy.props.EnumProperty(
         name="Secondary Path Generation",
         description="Algorithm for generating secondary paths",
@@ -90,18 +96,18 @@ class CLG_PG_zone(bpy.types.PropertyGroup):
             ('AI', "AI", "Uses AI trained on pictures of city layouts"),
         ],
         default='NONE'
-    ) # type: ignore
+    )  # type: ignore
     structure_generation: bpy.props.EnumProperty(
         name="Structure Generation",
         description="Algorithm for generating structures",
         items=[
-            ('NONE', "None", "No strucutres will be generated"),
+            ('NONE', "None", "No structures will be generated"),
             ('GRID', "Grid", "Uses points with offset for generating structures in grid-like pattern"),
-            ('RADIAL', "Radial", "Generates structures in raidal-like pattern"),
+            ('RADIAL', "Radial", "Generates structures in radial-like pattern"),
             ('AI', "AI", "Uses AI trained on pictures of city layouts"),
         ],
         default='NONE'
-    ) # type: ignore
+    )  # type: ignore
 
 classes = (
     CLG_PG_obj_ref,
@@ -112,8 +118,9 @@ classes = (
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
-    bpy.types.Scene.clg_zones = bpy.props.CollectionProperty(type=CLG_PG_zone)
+
     bpy.types.Scene.clg_tiles = bpy.props.CollectionProperty(type=CLG_PG_tile)
+    bpy.types.Scene.clg_zones = bpy.props.CollectionProperty(type=CLG_PG_zone)
     bpy.types.Scene.clg_active_tile_index = bpy.props.IntProperty(
         name="Active Tile Index",
         default=0,
@@ -160,9 +167,10 @@ def register():
 def unregister():
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
+
     del bpy.types.Scene.clg_tiles
-    del bpy.types.Scene.clg_active_tile_index
     del bpy.types.Scene.clg_zones
+    del bpy.types.Scene.clg_active_tile_index
     del bpy.types.Scene.clg_active_zone_index
     del bpy.types.Scene.clg_grid_width
     del bpy.types.Scene.clg_grid_height
