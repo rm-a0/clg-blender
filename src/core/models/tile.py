@@ -11,11 +11,11 @@ class TileType(Enum):
 class TileDefinition:
     id: int
     type: TileType
+    name: str 
     width: float
     height: float
 
 @dataclass
 class Tile:
     definition: TileDefinition
-    position: Tuple[int, int]
     elevation: float
