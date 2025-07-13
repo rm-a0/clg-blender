@@ -6,6 +6,7 @@ class CLG_OT_generate_layout(bpy.types.Operator):
     bl_description = "Generate layout based on current settings"
 
     def execute(self, context):
+        # Placeholder for calling functions from src/core
         print("TODO")
         self.report({'INFO'}, "Layout generation triggered")
         return {'FINISHED'}
