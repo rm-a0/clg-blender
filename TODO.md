@@ -1,6 +1,6 @@
 TODO List
 
-- [ ] Create UI and user input
+- [x] Create UI and user input
   - [x] Allow user to select meshes/collections and assign types for them
     - [x] Define tile types (water, road, building, ...)
   - [x] Allow user to set main setting for generation
@@ -15,8 +15,26 @@ TODO List
     - [x] Allowed tiles (tiles that can be generated inside the zone)
     - [x] Secondary road generation algorithm (none, voronoi diagrams, ai, ...)
     - [x] Building generation algorithm (none, grid, radial, ai, ...)
-  - [ ] Allow user to select connection points for tiles and select meshes it "must" be connected to
+  - [x] Allow user to select connection points for tiles and select meshes it "must" be connected to
 
 - [ ] Rewrite [Lua modules](https://github.com/rm-a0/city-sim) to Python code
+  - [ ] Create algorithm modules
+    - [ ] Perlin Noise
+    - [ ] Poission Disk Sampling
+    - [ ] Voronoi Diagrams
+    - [ ] A*
+  - [ ] Create generation modules
+    - [ ] Terrain
+    - [ ] Water
+    - [ ] Roads
+    - [ ] Buildinges
+    - [ ] Zones
+  - [ ] Create model modules
+    - [ ] Tile
+    - [ ] Zone
+    - [ ] Grid
+
 - [ ] Add AI for road generation (train on satellite images from cities or something)
-- [ ] Add generation for different tile shapes (hexagonal, triangular)
+
+- [ ] Possible upgrades
+  - [ ] Add generation for different tile shapes (hexagonal, triangular)
