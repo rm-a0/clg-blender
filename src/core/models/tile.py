@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
+from typing import Optional
 
 class TileType(Enum):
     WATER = "water"
@@ -16,5 +17,5 @@ class TileDefinition:
 
 @dataclass
 class Tile:
-    definition: TileDefinition
+    definition: Optional[TileDefinition] = None
     elevation: float
