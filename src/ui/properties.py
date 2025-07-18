@@ -1,4 +1,5 @@
 import bpy
+from ..core.models.tile import TileDefinition
 
 class CLG_PG_obj_ref(bpy.types.PropertyGroup):
     object_ref: bpy.props.PointerProperty(

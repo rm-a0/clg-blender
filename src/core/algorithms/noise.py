@@ -31,7 +31,7 @@ class Noise:
         return (u if (h & 1) == 0 else -u) + (v if (h & 2) == 0 else -v)
 
     @classmethod
-    def perlin_noise(x: float, y: float, scale: float = 1.0) -> float:
+    def perlin_noise(cls, x: float, y: float, scale: float = 1.0) -> float:
         p = Noise._permutation
 
         x *= scale

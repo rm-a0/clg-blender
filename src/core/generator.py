@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from .models.grid import Grid
-from .models.tile_factory import TileFactory
+from .models.tile_manager import TileManager
 from .algorithms.noise import Noise
 
 @dataclass
@@ -14,11 +14,11 @@ class GeneratorConfig:
 class Generator:
     def __init__(self, config: GeneratorConfig):
         self.config = config
-        layout = [[TileFactory.create_empty() for _ in range(config.width)] for _ in range(config.height)]
+        layout = [[TileManager.create_empty() for _ in range(config.width)] for _ in range(config.height)]
         self.grid = Grid(config.width, config.height, layout)
 
-    def generate_terrain(self):
+    def generate_terrain(self) -> None:
         for y in range(self.grid.height):
             for x in range(self.grid.width):
                 elevation = Noise.perlin_noise(x, y)
-                self.grid.set_tile(x, y, TileFactory.create_empty(elevation)) 
+                self.grid.set_tile(x, y, TileManager.create_empty(elevation)) 

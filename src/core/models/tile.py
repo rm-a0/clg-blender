@@ -3,9 +3,10 @@ from enum import Enum
 from typing import Optional
 
 class TileType(Enum):
+    PATH = "path"
     WATER = "water"
-    ROAD = "road"
-    BUILDING = "building"
+    STRUCTURE = "structure"
+    DECORATION = "decoration"
 
 @dataclass
 class TileDefinition:
@@ -18,4 +19,4 @@ class TileDefinition:
 @dataclass
 class Tile:
     definition: Optional[TileDefinition] = None
-    elevation: float
+    elevation: float = 0.0
