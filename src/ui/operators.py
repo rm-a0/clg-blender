@@ -1,4 +1,5 @@
 import bpy
+from ..placement.tile_placer import TilePlacer
 
 class CLG_OT_generate_layout(bpy.types.Operator):
     bl_idname = "clg.generate_layout"
@@ -7,7 +8,12 @@ class CLG_OT_generate_layout(bpy.types.Operator):
 
     def execute(self, context):
         # Placeholder for calling functions from src/core
-        print("TODO")
+        # Added for testing pourposes
+        tp = TilePlacer(None, context.scene.clg_tiles)
+        tile = context.scene.clg_tiles[0]
+        new_tile_collection = tp.copy_bl_tile(tile)
+        tp.move_bl_tile(new_tile_collection, 1.0, 5.0, 0.0)
+
         self.report({'INFO'}, "Layout generation triggered")
         return {'FINISHED'}
 
