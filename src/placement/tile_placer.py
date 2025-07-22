@@ -1,5 +1,5 @@
 import bpy
-from mathutils import Vector, Euler
+from mathutils import Vector
 from ..core.models.grid import Grid
 from ..ui.properties import CLG_PG_tile
 
@@ -25,6 +25,11 @@ class TilePlacer:
                 obj_ref.object_ref.hide_viewport = True
                 obj_ref.object_ref.hide_render = True
 
+    def hide_all_bl_tiles(self) -> None:
+        for tile in self.tile_map.values():
+            self.hide_bl_tile(tile=tile)
+
+    # TODO: Remove debugging print after expanding and finalizing the method
     def move_bl_tile(self, collection: bpy.types.Collection, x: float, y: float, z: float) -> None:
         if not collection.objects:
             print("No objects in collection")
@@ -63,10 +68,9 @@ class TilePlacer:
             obj.location += offset
             print(f"Moved object {obj.name} to new location: {obj.location}")
 
-        #bpy.context.view_layer.update()
-
     def place_tiles(self) -> None:
         bpy.ops.object.select_all(action='DESELECT')
+        self.hide_all_bl_tiles()
 
         for row in range(self.grid.width):
             for col in range(self.grid.height):
@@ -76,4 +80,3 @@ class TilePlacer:
                     continue
 
                 bl_tile = self.tile_map[tile_name]
-

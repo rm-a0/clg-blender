@@ -13,6 +13,7 @@ class CLG_OT_generate_layout(bpy.types.Operator):
         tile = context.scene.clg_tiles[0]
         new_tile_collection = tp.copy_bl_tile(tile)
         tp.move_bl_tile(new_tile_collection, 1.0, 5.0, 0.0)
+        tp.hide_all_bl_tiles()
 
         self.report({'INFO'}, "Layout generation triggered")
         return {'FINISHED'}
