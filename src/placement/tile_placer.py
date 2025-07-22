@@ -74,9 +74,13 @@ class TilePlacer:
 
         for row in range(self.grid.width):
             for col in range(self.grid.height):
-                tile_name = self.grid.get_tile(row, col).definition.name
+                # Core refers to tiles from the 'core' module and bl refers to the actual tiles inside blender
+                core_tile = self.grid.get_tile(row, col)
+                core_tile_name = core_tile.definition.name
 
-                if not tile_name or tile_name not in self.tile_map:
+                if not core_tile_name or core_tile_name not in self.tile_map:
                     continue
 
-                bl_tile = self.tile_map[tile_name]
+                bl_tile = self.tile_map[core_tile_name]
+                bl_collection = self.copy_bl_tile(bl_tile)
+                self.move_bl_tile(bl_collection, float(row * core_tile.definition.width), float(col * core_tile.definition.height), float(core_tile.elevation))
