@@ -22,3 +22,12 @@ class Generator:
             for x in range(self.grid.width):
                 elevation = Noise.perlin_noise(x, y)
                 self.grid.set_tile(x, y, TileManager.create_empty(elevation)) 
+
+    def generate_rivers(self) -> None:
+        pass
+
+    def generate_paths(self) -> None:
+        pass
+
+    def generate_structures(self) -> None:
+        pass

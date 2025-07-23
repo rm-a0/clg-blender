@@ -6,12 +6,12 @@ class ZoneType(Enum):
     COMMERCIAL = "commercial"
     INDUSTRIAL = "industrial"
 
-class RoadAlgorithm(Enum):
+class PathAlgorithm(Enum):
     NONE = "none"
     VORONOI = "voronoi"
     AI = "ai"
 
-class BuildingAlgorithm(Enum):
+class StructureAlgorithm(Enum):
     NONE = "none"
     GRID = "grid"
     RADIAL = "radial"
@@ -21,9 +21,10 @@ class BuildingAlgorithm(Enum):
 class ZoneDefinition:
     id: int
     type: ZoneType
+    name: str
     frequency: float
-    road_algorithm: RoadAlgorithm = RoadAlgorithm.NONE
-    building_algorithm: BuildingAlgorithm = BuildingAlgorithm.NONE
+    path_algorithm: PathAlgorithm = PathAlgorithm.NONE
+    structure_algorithm: StructureAlgorithm = StructureAlgorithm.NONE
 
 @dataclass
 class Zone:
