@@ -1,0 +1,25 @@
+from dataclasses import dataclass
+from enum import Enum
+from typing import Optional
+
+class TileType(Enum):
+    '''Enum for different tile types''' 
+    PATH = "path"
+    WATER = "water"
+    STRUCTURE = "structure"
+    DECORATION = "decoration"
+
+@dataclass
+class TileDefinition:
+    '''Definition of a tile'''
+    id: int
+    type: TileType
+    name: str 
+    width: float
+    height: float
+
+@dataclass
+class Tile:
+    '''Tile instance'''
+    definition: Optional[TileDefinition] = None
+    elevation: float = 0.0
