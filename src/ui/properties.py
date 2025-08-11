@@ -16,6 +16,7 @@ class CLG_PG_tile(bpy.types.PropertyGroup):
         name="Type",
         description="Type/category of a tile",
         items=[
+            ('LAND', "Land", "Land and surface tiles"),
             ('PATH', "Path", "Paths and roads"),
             ('WATER', "Water", "Rivers, lakes and bodies of water"),
             ('STRUCTURE', "Structure", "Building or any type of structure"),
