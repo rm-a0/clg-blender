@@ -146,22 +146,25 @@ def register():
         min=1,
         description="Number of tiles in the grid height (height of the layout in tiles)"
     )
-    bpy.types.Scene.clg_terrain_intensity = bpy.props.IntProperty(
+    bpy.types.Scene.clg_terrain_intensity = bpy.props.FloatProperty(
         name="Terrain Intensity",
-        default=0,
-        min=0,
+        default=0.1,
+        min=0.0,
+        max=1.0,
         description="Intensity or strength of generated terrain \n(0 = no elevation, flat surface)"
     )
-    bpy.types.Scene.clg_lake_frequency = bpy.props.IntProperty(
+    bpy.types.Scene.clg_lake_frequency = bpy.props.FloatProperty(
         name="Lake Frequency",
-        default=0,
-        min=0,
+        default=0.2,
+        min=0.0,
+        max=1.0,
         description="Frequency of generated lakes \n(0 = no lakes generated)"
     )
-    bpy.types.Scene.clg_river_frequency = bpy.props.IntProperty(
+    bpy.types.Scene.clg_river_frequency = bpy.props.FloatProperty(
         name="River Frequency",
-        default=0,
-        min=0,
+        default=0.2,
+        min=0.0,
+        max=1.0,
         description="Frequency of generated rivers \n(0 = no rivers generated)"
     )
 

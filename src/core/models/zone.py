@@ -8,13 +8,13 @@ class ZoneType(Enum):
     INDUSTRIAL = "industrial"
 
 class PathAlgorithm(Enum):
-    '''Enum for different path generation algorithms''' 
+    '''Enum for different path generation algorithms'''
     NONE = "none"
     VORONOI = "voronoi"
     AI = "ai"
 
 class StructureAlgorithm(Enum):
-    '''Enum for different structure generation algorithms''' 
+    '''Enum for different structure generation algorithms'''
     NONE = "none"
     GRID = "grid"
     RADIAL = "radial"

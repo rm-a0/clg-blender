@@ -4,6 +4,7 @@ from typing import Optional
 
 class TileType(Enum):
     '''Enum for different tile types''' 
+    LAND= "land"
     PATH = "path"
     WATER = "water"
     STRUCTURE = "structure"
@@ -17,6 +18,7 @@ class TileDefinition:
     name: str 
     width: float
     height: float
+    is_default: bool
 
 @dataclass
 class Tile:

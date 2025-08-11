@@ -1,13 +1,16 @@
-from .tile import Tile
+from .tile import Tile, TileType
 from .tile_registry import TileDefinitionRegistry
 
 class TileManager:
     '''Static namespace for tile creation and modification methods'''
     @classmethod
-    def create_empty(cls, elevation: float = 0.0) -> Tile:
-        '''Create empty tile with no definition'''
-        return Tile(definition=None, elevation=elevation)
-    
+    def create_default_tile(cls, tile_type: TileType, elevation: float = 0.0) -> Tile:
+        '''Create tile with default definition'''
+        default_def = cls.get_default_by_type(tile_type)
+        if default_def is None:
+            raise ValueError(f"No default tile found for type '{tile_type}'")
+        return Tile(definition=default_def, elevation=elevation)
+
     @classmethod
     def create_tile_by_name(cls, def_name: str, elevation: float = 0.0) -> Tile:
         '''Create tile with definition defined by its name'''
