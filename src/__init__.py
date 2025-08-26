@@ -8,6 +8,18 @@ bl_info = {
     "category": "Object"
 }
 
+import sys
+import os
+
+addon_dir = os.path.dirname(__file__)
+sys.path.append(os.path.join(addon_dir, "libs"))
+
+try:
+    import numpy as np
+except ImportError:
+    print("NumPy not found in addon_libs. Please ensure it is bundled correctly.")
+    raise
+
 from .ui import panels, operators, properties
 
 def register():
