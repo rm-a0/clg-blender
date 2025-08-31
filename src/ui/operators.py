@@ -1,5 +1,6 @@
 import bpy
 from ..placement.tile_placer import TilePlacer
+from ..core.algorithms.partition import Partition
 
 class CLG_OT_generate_layout(bpy.types.Operator):
     bl_idname = "clg.generate_layout"
@@ -9,11 +10,13 @@ class CLG_OT_generate_layout(bpy.types.Operator):
     def execute(self, context):
         # Placeholder for calling functions from src/core
         # Added for testing pourposes
-        tp = TilePlacer(None, context.scene.clg_tiles)
-        tile = context.scene.clg_tiles[0]
-        new_tile_collection = tp.copy_bl_tile(tile)
-        tp.move_bl_tile(new_tile_collection, 1.0, 5.0, 0.0)
-        tp.hide_all_bl_tiles()
+        # tp = TilePlacer(None, context.scene.clg_tiles)
+        # tile = context.scene.clg_tiles[0]
+        # new_tile_collection = tp.copy_bl_tile(tile)
+        # tp.move_bl_tile(new_tile_collection, 1.0, 5.0, 0.0)
+        # tp.hide_all_bl_tiles()
+        partition = Partition()
+        partition.voronoi_random(50, 50, 5)
 
         self.report({'INFO'}, "Layout generation triggered")
         return {'FINISHED'}

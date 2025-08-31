@@ -13,7 +13,7 @@ class Partition:
             y = np.random.randint(1, height + 1)
             seeds.append((x, y))
 
-        x_grid, y_grid = np.meshgrid(np.arrange(1, width + 1), np.arrange(1, height + 1))
+        x_grid, y_grid = np.meshgrid(np.arange(1, width + 1), np.arange(1, height + 1))
         distances = np.empty((height, width, num_zones))
 
         for i, (sx, sy) in enumerate(seeds):
